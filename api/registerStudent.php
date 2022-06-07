@@ -12,6 +12,12 @@ if ($insert) {
 
   $userInsert = $conn->exec("INSERT INTO users (id, username, password, role) VALUES ($lastIDNum, '$username', '$password', 'student')");
 
-  if ($userInsert) echo $userInsert;
+
+  $userGrades = $conn->exec("INSERT INTO grades (session_id, student_id) VALUES ($session_id, $lastIDNum) ");
+
+
+
+
+  if ($userGrades) echo $userGrades;
   else echo false;
 } else echo false;

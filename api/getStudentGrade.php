@@ -7,4 +7,6 @@ $search = $conn->query("SELECT * FROM grades WHERE student_id = $id AND session_
 $grades = $search->fetch(PDO::FETCH_OBJ);
 
 if ($grades) echo json_encode($grades);
-else echo false;
+else {
+  $insert = $conn->query("INSERT INTO grades (session_id, student_id) VALUES($sessionID, $id)");
+}

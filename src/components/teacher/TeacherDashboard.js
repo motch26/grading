@@ -14,7 +14,7 @@ const TeacherDashboard = () => {
 
   const getStats = () => {
     axios
-      .get(`https://grading.miracodes.com/api/getStats.php?id=${cookies.id}`)
+      .get(`http://localhost/grading/api/getStats.php?id=${cookies.id}`)
       .then((res) => {
         setTotalClasses(res.data[0]);
         setTotalSubjects(res.data[1]);

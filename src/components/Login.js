@@ -30,7 +30,7 @@ const Login = () => {
       formData.append("username", username);
       formData.append("password", password);
       axios
-        .post("https://grading.miracodes.com/api/login.php", formData)
+        .post("http://localhost/grading/api/login.php", formData)
         .then((res) => {
           if (res.data) {
             const { user_id, id, role } = res.data;
@@ -51,29 +51,42 @@ const Login = () => {
 
   return (
     <>
-      <Container sx={{ bgcolor: "primary.light" }}>
+      <Container>
         <Box sx={styles.mainBox}>
-          <Typography variant="h2" fontWeight={700} marginBottom={5}>
-            Grading System
-          </Typography>
           <Paper elevation={5} sx={styles.formPaper}>
+            <Typography
+              variant="h2"
+              fontWeight={700}
+              marginBottom={5}
+              textAlign="center"
+              sx={{ bgcolor: "primary.light", py: 1 }}
+            >
+              Grading System
+            </Typography>
             <TextField
               label="Username"
               placeholder="Enter your username"
               margin="normal"
-              fullWidth={true}
               required
-              sx={{ border: 3, borderColor: "primary.light" }}
+              sx={{
+                border: 3,
+                width: "40%",
+                display: "block",
+                mx: "auto",
+              }}
               onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               label="Password"
               placeholder="Enter your password"
-              margin="normal"
-              fullWidth={true}
               required
               type="password"
-              sx={{ border: 3, borderColor: "primary.light" }}
+              sx={{
+                border: 3,
+                width: "40%",
+                display: "block",
+                mx: "auto",
+              }}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button
@@ -120,10 +133,10 @@ const styles = {
   },
   formPaper: {
     p: 5,
-
+    pt: 0,
     width: "clamp(400px, 50vw, 80vw)",
     display: "flex",
-    border: "3px dashed",
+    border: "2px dashed",
     borderColor: "primary.dark",
     flexDirection: "column",
   },

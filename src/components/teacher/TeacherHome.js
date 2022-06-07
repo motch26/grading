@@ -25,7 +25,7 @@ const TeacherHome = () => {
   const getUser = () => {
     axios
       .get(
-        `https://grading.miracodes.com/api/getUser.php?id=${cookies.id}&role=${cookies.role}`
+        `http://localhost/grading/api/getUser.php?id=${cookies.id}&role=${cookies.role}`
       )
       .then((res) => {
         if (res.data) {

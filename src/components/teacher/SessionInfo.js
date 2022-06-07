@@ -57,7 +57,7 @@ const SessionInfo = () => {
   const getStudents = () => {
     axios
       .get(
-        `https://grading.miracodes.com/api/getStudents.php?sessionID=${sessionID}`
+        `http://localhost/grading/api/getStudents.php?sessionID=${sessionID}`
       )
       .then((res) => {
         setStudents(res.data);
@@ -73,8 +73,9 @@ const SessionInfo = () => {
     formData.append("mi", mi);
     formData.append("lastName", lastName);
     formData.append("sectionID", currentSectionID);
+    formData.append("session_id", sessionID);
     axios
-      .post("https://grading.miracodes.com/api/registerStudent.php", formData)
+      .post("http://localhost/grading/api/registerStudent.php", formData)
       .then((res) => {
         if (res.data) {
           setShowAddStudentModal(false);
@@ -87,7 +88,7 @@ const SessionInfo = () => {
   const getStudentGrade = (id) => {
     axios
       .get(
-        `https://grading.miracodes.com/api/getStudentGrade.php?id=${id}&sessionID=${sessionID}`
+        `http://localhost/grading/api/getStudentGrade.php?id=${id}&sessionID=${sessionID}`
       )
       .then((res) => setCurrentStudentGrades(res.data))
       .catch((err) => console.log(err));
