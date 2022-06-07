@@ -5,6 +5,8 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Dialog,
+  DialogContent,
   Grid,
   MenuItem,
   Modal,
@@ -47,7 +49,6 @@ const Classes = () => {
       )
       .then((res) => {
         setSessions(res.data);
-        setAddSession(false);
       })
       .catch((err) => console.log(err));
   };
@@ -159,101 +160,106 @@ const Classes = () => {
           </Grid>
         ) : null}
       </Grid>
-      <Modal
+      <Dialog
         sx={styles.modalContainer}
         open={addSessionShow}
         onClose={() => setAddSession(false)}
+        maxWidth="lg"
+        fullWidth
       >
-        <Paper sx={styles.modalPaper}>
-          <Box sx={styles.modalTitle}>
-            <Typography variant="h5" fontWeight={700}>
-              Add Class Session
-            </Typography>
-          </Box>
-          <Box sx={styles.formContainer}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={4}>
-                <Box sx={styles.inputContainer}>
-                  <Typography variant="h6" fontWeight={400}>
-                    Teacher ID :{" "}
-                  </Typography>
-                  <TextField
-                    id="outlined-basic"
-                    variant="outlined"
-                    value={cookies.id}
-                    helperText="Non-Editable"
-                    InputProps={{ readOnly: true }}
-                  />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Box sx={styles.inputContainer}>
-                  <Typography variant="h6" fontWeight={400}>
-                    Subject :{" "}
-                  </Typography>
-                  <Select
-                    value={subjectID}
-                    onChange={(e) => setSubjectID(e.target.value)}
-                  >
-                    {subjects ? (
-                      subjects.map((subjectItem) => {
-                        const { id, name } = subjectItem;
-                        return (
-                          <MenuItem value={id} key={id}>
-                            {name}
-                          </MenuItem>
-                        );
-                      })
-                    ) : (
-                      <MenuItem value="">No Subjects Encoded</MenuItem>
-                    )}
-                  </Select>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Box sx={styles.inputContainer}>
-                  <Typography variant="h6" fontWeight={400}>
-                    Class Section :{" "}
-                  </Typography>
-                  <Select
-                    value={sectionID}
-                    onChange={(e) => setSectionID(e.target.value)}
-                  >
-                    {/* TODO: Adjust sections list if duplicate sessions exist */}
-                    {sections ? (
-                      sections.map((sectionItem) => {
-                        const { id, course_code, level, section } = sectionItem;
-                        return (
-                          <MenuItem value={id} key={id}>
-                            {`${course_code} ${level} - ${section}`}
-                          </MenuItem>
-                        );
-                      })
-                    ) : (
-                      <MenuItem value="">No Sections Encoded</MenuItem>
-                    )}
-                  </Select>
-                </Box>
-              </Grid>
-            </Grid>
-            <Box sx={styles.formEnd}>
-              {isSessionDuplicate ? (
-                <Alert severity="error">Class session already exists!</Alert>
-              ) : null}
-              {insertError ? (
-                <Alert severity="error">Adding session failed!</Alert>
-              ) : null}
-              <Button
-                variant="contained"
-                sx={styles.addSessionBtn}
-                onClick={insertSession}
-              >
-                Add Session
-              </Button>
+        <DialogContent>
+          <Paper sx={styles.modalPaper}>
+            <Box sx={styles.modalTitle}>
+              <Typography variant="h5" fontWeight={700}>
+                Add Class Session
+              </Typography>
             </Box>
-          </Box>
-        </Paper>
-      </Modal>
+            <Box sx={styles.formContainer}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={4}>
+                  <Box sx={styles.inputContainer}>
+                    <Typography variant="h6" fontWeight={400}>
+                      Teacher ID :{" "}
+                    </Typography>
+                    <TextField
+                      id="outlined-basic"
+                      variant="outlined"
+                      value={cookies.id}
+                      helperText="Non-Editable"
+                      InputProps={{ readOnly: true }}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Box sx={styles.inputContainer}>
+                    <Typography variant="h6" fontWeight={400}>
+                      Subject :{" "}
+                    </Typography>
+                    <Select
+                      value={subjectID}
+                      onChange={(e) => setSubjectID(e.target.value)}
+                    >
+                      {subjects ? (
+                        subjects.map((subjectItem) => {
+                          const { id, name } = subjectItem;
+                          return (
+                            <MenuItem value={id} key={id}>
+                              {name}
+                            </MenuItem>
+                          );
+                        })
+                      ) : (
+                        <MenuItem value="">No Subjects Encoded</MenuItem>
+                      )}
+                    </Select>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Box sx={styles.inputContainer}>
+                    <Typography variant="h6" fontWeight={400}>
+                      Class Section :{" "}
+                    </Typography>
+                    <Select
+                      value={sectionID}
+                      onChange={(e) => setSectionID(e.target.value)}
+                    >
+                      {/* TODO: Adjust sections list if duplicate sessions exist */}
+                      {sections ? (
+                        sections.map((sectionItem) => {
+                          const { id, course_code, level, section } =
+                            sectionItem;
+                          return (
+                            <MenuItem value={id} key={id}>
+                              {`${course_code} ${level} - ${section}`}
+                            </MenuItem>
+                          );
+                        })
+                      ) : (
+                        <MenuItem value="">No Sections Encoded</MenuItem>
+                      )}
+                    </Select>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Box sx={styles.formEnd}>
+                {isSessionDuplicate ? (
+                  <Alert severity="error">Class session already exists!</Alert>
+                ) : null}
+                {insertError ? (
+                  <Alert severity="error">Adding session failed!</Alert>
+                ) : null}
+                <Button
+                  variant="contained"
+                  sx={styles.addSessionBtn}
+                  onClick={insertSession}
+                >
+                  Add Session
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
@@ -289,7 +295,6 @@ const styles = {
     alignItems: "center",
   },
   modalPaper: {
-    p: 2,
     width: "clamp(500px, 70vw, 80vw)",
     height: "clamp(300px, fit-content, 90vh)",
     diplay: "flex",
