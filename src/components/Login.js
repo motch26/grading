@@ -30,7 +30,7 @@ const Login = () => {
       formData.append("username", username);
       formData.append("password", password);
       axios
-        .post("http://localhost/grading/api/login.php", formData)
+        .post("https://grading.miracodes.com/api/login.php", formData)
         .then((res) => {
           if (res.data) {
             const { user_id, id, role } = res.data;
@@ -53,37 +53,31 @@ const Login = () => {
     <>
       <Container>
         <Box sx={styles.mainBox}>
-          <Paper elevation={5} sx={styles.formPaper}>
+          <Paper elevation={24} sx={styles.formPaper}>
             <Typography
               variant="h2"
               fontWeight={700}
-              marginBottom={5}
+              mb={1}
               textAlign="center"
               sx={{ bgcolor: "primary.light", py: 1 }}
             >
               Grading System
             </Typography>
+            <Typography variant="h6">Username:</Typography>
             <TextField
-              label="Username"
               placeholder="Enter your username"
-              margin="normal"
-              required
               sx={{
-                border: 3,
-                width: "40%",
                 display: "block",
                 mx: "auto",
               }}
               onChange={(e) => setUsername(e.target.value)}
             />
+            <Typography variant="h6">Password:</Typography>
+
             <TextField
-              label="Password"
               placeholder="Enter your password"
-              required
               type="password"
               sx={{
-                border: 3,
-                width: "40%",
                 display: "block",
                 mx: "auto",
               }}
@@ -130,14 +124,16 @@ const styles = {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    bgcolor: "primary.light",
   },
   formPaper: {
-    p: 5,
-    pt: 0,
+    p: 3,
+    pb: 1,
+
     width: "clamp(400px, 50vw, 80vw)",
     display: "flex",
-    border: "2px dashed",
-    borderColor: "primary.dark",
+
+    textAlign: "center",
     flexDirection: "column",
   },
   formButton: {

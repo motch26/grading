@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   ButtonGroup,
@@ -25,7 +26,7 @@ const TeacherHome = () => {
   const getUser = () => {
     axios
       .get(
-        `http://localhost/grading/api/getUser.php?id=${cookies.id}&role=${cookies.role}`
+        `https://grading.miracodes.com/api/getUser.php?id=${cookies.id}&role=${cookies.role}`
       )
       .then((res) => {
         if (res.data) {
@@ -71,7 +72,9 @@ const TeacherHome = () => {
                 Logout
               </Button>
             </ButtonGroup>
-            <Typography>{fullName}</Typography>
+            <Avatar sx={{ bgcolor: "secondary.light" }}>
+              {fullName.slice(0, 1)}
+            </Avatar>
           </Box>
         </Toolbar>
       </AppBar>

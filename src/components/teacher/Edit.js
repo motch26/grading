@@ -26,7 +26,7 @@ const Edit = () => {
     formData.append("midTerm", midTermNew);
     formData.append("endTerm", endTermNew);
     axios
-      .post("http://localhost/grading/api/updateGrades.php", formData)
+      .post("https://grading.miracodes.com/api/updateGrades.php", formData)
       .then((res) => {
         if (res.data) {
           getStudentGrade(currentStudentID);

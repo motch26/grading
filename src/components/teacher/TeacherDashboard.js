@@ -14,7 +14,7 @@ const TeacherDashboard = () => {
 
   const getStats = () => {
     axios
-      .get(`http://localhost/grading/api/getStats.php?id=${cookies.id}`)
+      .get(`https://grading.miracodes.com/api/getStats.php?id=${cookies.id}`)
       .then((res) => {
         setTotalClasses(res.data[0]);
         setTotalSubjects(res.data[1]);
@@ -36,7 +36,7 @@ const TeacherDashboard = () => {
           <Card>
             <CardContent>
               <Box sx={styles.cardNumber}>
-                <Typography variant="h2" fontWeight={700}>
+                <Typography variant="h1" fontWeight={700}>
                   {totalClasses}
                 </Typography>
               </Box>
@@ -50,7 +50,7 @@ const TeacherDashboard = () => {
           <Card>
             <CardContent>
               <Box sx={styles.cardNumber}>
-                <Typography variant="h2" fontWeight={700}>
+                <Typography variant="h1" fontWeight={700}>
                   {totalSubject}
                 </Typography>
               </Box>

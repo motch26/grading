@@ -43,7 +43,7 @@ const Classes = () => {
   const getSession = () => {
     axios
       .get(
-        `http://localhost/grading/api/getTeacherSession.php?id=${cookies.id}`
+        `https://grading.miracodes.com/api/getTeacherSession.php?id=${cookies.id}`
       )
       .then((res) => {
         setSessions(res.data);
@@ -54,7 +54,7 @@ const Classes = () => {
 
   const getSubject = () => {
     axios
-      .get("http://localhost/grading/api/getSubjects.php")
+      .get("https://grading.miracodes.com/api/getSubjects.php")
       .then((res) => {
         if (res.data) setSubjects(res.data);
       })
@@ -63,7 +63,7 @@ const Classes = () => {
 
   const getSection = () => {
     axios
-      .get("http://localhost/grading/api/getSections.php")
+      .get("https://grading.miracodes.com/api/getSections.php")
       .then((res) => {
         if (res.data) setSections(res.data);
       })
@@ -76,7 +76,7 @@ const Classes = () => {
     formData.append("section_id", sectionID);
     formData.append("subject_id", subjectID);
     axios
-      .post("http://localhost/grading/api/insertSession.php", formData)
+      .post("https://grading.miracodes.com/api/insertSession.php", formData)
       .then((res) => {
         if (res.data) {
           navigate("/home/teacher/classes");
