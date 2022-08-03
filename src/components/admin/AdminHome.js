@@ -23,11 +23,13 @@ import {
 } from "@mui/icons-material";
 import { Outlet } from "react-router-dom";
 import { grey } from "@mui/material/colors";
-
+import { useNavigate } from "react-router-dom";
 const AdminHome = () => {
   const [enrolmentDropdown, setEnrolmentDropdown] = useState(false);
   const [registerDropdown, setRegisterDropdown] = useState(false);
   const [loadingDropdown, setLoadingDropdown] = useState(false);
+
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -63,13 +65,19 @@ const AdminHome = () => {
               {enrolmentDropdown ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={enrolmentDropdown} timeout="auto" unmountOnExit>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                onClick={() => navigate("student")}
+              >
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
                 <ListItemText primary="Student" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                onClick={() => navigate("faculty")}
+              >
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
@@ -86,13 +94,16 @@ const AdminHome = () => {
               {registerDropdown ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={registerDropdown} timeout="auto" unmountOnExit>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("course")}>
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
                 <ListItemText primary="Course" />
               </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton
+                sx={{ pl: 4 }}
+                onClick={() => navigate("subject")}
+              >
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
@@ -102,7 +113,10 @@ const AdminHome = () => {
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
-                <ListItemText primary="Section" />
+                <ListItemText
+                  primary="Section"
+                  onClick={() => navigate("section")}
+                />
               </ListItemButton>
             </Collapse>
             <ListItemButton onClick={() => setLoadingDropdown((prev) => !prev)}>
@@ -113,7 +127,7 @@ const AdminHome = () => {
               {loadingDropdown ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={loadingDropdown} timeout="auto" unmountOnExit>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("load")}>
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
