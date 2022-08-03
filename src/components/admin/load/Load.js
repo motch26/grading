@@ -2,13 +2,13 @@ import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
-const Subject = () => {
+const Load = () => {
   const columns = [
-    { field: "id", headerName: "Subject ID", flex: 1 },
-    { field: "code", headerName: "Subject Code", flex: 1 },
-    { field: "name", headerName: "Subject Name", flex: 1 },
-    { field: "course", headerName: "Course Code", flex: 1 },
-    { field: "level", headerName: "Year Level", flex: 1 },
+    { field: "id", headerName: "Load ID", flex: 1 },
+    { field: "section", headerName: "Section", flex: 1 },
+    { field: "faculty", headerName: "Faculty", flex: 1 },
+    { field: "start", headerName: "Start", flex: 1 },
+    { field: "end", headerName: "End", flex: 1 },
   ];
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -17,7 +17,7 @@ const Subject = () => {
         sx={{ width: "fit-content", ml: "auto" }}
         startIcon={<Add />}
       >
-        Add Subject
+        Add Class Load
       </Button>
       <Box sx={{ width: "100%", height: "700px", mt: 1 }}>
         <DataGrid columns={columns} rows={[]} />
@@ -26,4 +26,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default Load;

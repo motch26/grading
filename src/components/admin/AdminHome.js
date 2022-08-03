@@ -96,13 +96,13 @@ const AdminHome = () => {
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
-                <ListItemText primary="Section" />
+                <ListItemText primary="Subject" />
               </ListItemButton>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <School />
                 </ListItemIcon>
-                <ListItemText primary="Subject" />
+                <ListItemText primary="Section" />
               </ListItemButton>
             </Collapse>
             <ListItemButton onClick={() => setLoadingDropdown((prev) => !prev)}>
