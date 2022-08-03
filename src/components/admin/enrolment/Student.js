@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
@@ -10,11 +10,24 @@ import {
   TextField,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import axios from "axios";
 const Student = () => {
-  const [open, setOpen] = useState("true");
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState([]);
+
+  useEffect(() => getStudents(), []);
+
+  const getStudents = () => {
+    axios
+      .get("http://localhost/grading/api/faculty/getStudents.php")
+      .then(({ data }) => {
+        if (data) setList(data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const generatePassword = () => {
-    var length = 8,
+    var length = 5,
       charset =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
       retVal = "";
@@ -24,6 +37,25 @@ const Student = () => {
     return retVal;
   };
 
+  const add = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const password = generatePassword();
+    const firstName = e.target.firstName.value;
+    const username = firstName.toLowerCase().replace(/\s/g, "");
+    formData.append("username", username);
+    formData.append("password", password);
+    axios
+      .post("http://localhost/grading/api/faculty/addStudent.php", formData)
+      .then(({ data }) => {
+        if (data) {
+          setOpen(false);
+          getStudents();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const columns = [
     { field: "id", headerName: "Student ID", width: 100 },
     { field: "username", headerName: "Username", width: 200 },
@@ -31,9 +63,6 @@ const Student = () => {
     { field: "firstName", headerName: "First Name", width: 200 },
     { field: "lastName", headerName: "Last Name", width: 200 },
     { field: "mi", headerName: "M.I.", width: 50 },
-    { field: "gender", headerName: "Gender", width: 200 },
-    { field: "address", headerName: "Address", width: 200 },
-    { field: "birthday", headerName: "Birthday", width: 200 },
   ];
 
   return (
@@ -42,11 +71,12 @@ const Student = () => {
         variant="contained"
         sx={{ width: "fit-content", ml: "auto" }}
         startIcon={<Add />}
+        onClick={() => setOpen(true)}
       >
         Add Student
       </Button>
       <Box sx={{ width: "100%", height: "700px", mt: 1 }}>
-        <DataGrid columns={columns} rows={[]} />
+        <DataGrid columns={columns} rows={list} />
       </Box>
       <Dialog
         open={open}
@@ -56,11 +86,7 @@ const Student = () => {
       >
         <DialogTitle sx={{ bgcolor: "primary.light" }}>Add Student</DialogTitle>
         <DialogContent>
-          <Box
-            sx={{ width: "100%", my: 2 }}
-            component="form"
-            onSubmit={() => {}}
-          >
+          <Box sx={{ width: "100%", my: 2 }} component="form" onSubmit={add}>
             <Grid container spacing={1}>
               <Grid item xs={4}>
                 <strong>First Name:</strong>
@@ -91,8 +117,14 @@ const Student = () => {
                   required
                   size="small"
                 />
-                {/*TODO: Proceed */}
               </Grid>
+              <Button
+                variant="contained"
+                sx={{ ml: "auto", mt: 2 }}
+                type="submit"
+              >
+                Add
+              </Button>
             </Grid>
           </Box>
         </DialogContent>
