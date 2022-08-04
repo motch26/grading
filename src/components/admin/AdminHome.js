@@ -24,12 +24,20 @@ import {
 import { Outlet } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 const AdminHome = () => {
   const [enrolmentDropdown, setEnrolmentDropdown] = useState(false);
   const [registerDropdown, setRegisterDropdown] = useState(false);
   const [loadingDropdown, setLoadingDropdown] = useState(false);
 
   const navigate = useNavigate();
+
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "user_id",
+    "id",
+    "role",
+    "username",
+  ]);
 
   return (
     <Box>
@@ -47,7 +55,18 @@ const AdminHome = () => {
           <Typography variant="h6" sx={{ mr: 3 }}>
             Admin
           </Typography>
-          <Button variant="contained" disableElevation>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={() => {
+              removeCookie("user_id", { path: "/" });
+              removeCookie("id", { path: "/" });
+              removeCookie("role", { path: "/" });
+              removeCookie("username", { path: "/" });
+
+              navigate("/");
+            }}
+          >
             LOGOUT
           </Button>
         </Toolbar>

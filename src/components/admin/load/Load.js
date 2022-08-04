@@ -19,12 +19,13 @@ const Load = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
+    getLoad();
     getFacultyList();
     getSectionList();
   }, []);
 
   const [selectedFaculty, setSelectedFaculty] = useState("");
-  const [selectSubject, setSelectedSubject] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedSection, setSelectedSection] = useState("");
 
   const [facultyList, setFacultyList] = useState([]);
@@ -50,7 +51,44 @@ const Load = () => {
       .catch((err) => console.log(err));
   };
 
-  const add = () => {};
+  const getSubjectsList = (id) => {
+    axios
+      .get(
+        "http://localhost/grading/api/faculty/getSubjectList.php?section_id=" +
+          id
+      )
+      .then(({ data }) => {
+        if (data) setSubjectList(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const getLoad = () => {
+    axios
+      .get("http://localhost/grading/api/faculty/getLoad.php")
+      .then(({ data }) => {
+        if (data) setList(data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const add = (e) => {
+    e.preventDefault();
+    console.log(`${selectedFaculty} ${selectedSection} ${selectedSubject}`);
+    const formData = new FormData();
+    formData.append("faculty_id", selectedFaculty);
+    formData.append("section_id", selectedSection);
+    formData.append("subject_id", selectedSubject);
+
+    axios
+      .post("http://localhost/grading/api/faculty/addLoad.php", formData)
+      .then(({ data }) => {
+        if (data) {
+          setOpen(false);
+          getLoad();
+        }
+      });
+  };
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Button
@@ -62,7 +100,7 @@ const Load = () => {
         Add Class Load
       </Button>
       <Box sx={{ width: "100%", height: "700px", mt: 1 }}>
-        <DataGrid columns={columns} rows={[]} />
+        <DataGrid columns={columns} rows={list} />
       </Box>
       <Dialog
         open={open}
@@ -105,11 +143,12 @@ const Load = () => {
                     value={selectedSection}
                     onChange={(e) => {
                       setSelectedSection(e.target.value);
+                      getSubjectsList(e.target.value);
                     }}
                   >
                     {sectionList.map((section) => {
                       //TODO: SET LEVEL
-                      const { id, level, name } = section;
+                      const { id, name } = section;
                       return (
                         <MenuItem key={id} value={id}>
                           {name}
@@ -125,14 +164,14 @@ const Load = () => {
                   <Select
                     fullWidth
                     name="subject"
-                    value={setSelectedSubject}
+                    value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
                   >
-                    {sectionList.map((section) => {
-                      const { id, name } = section;
+                    {subjectList.map((subject) => {
+                      const { id, code } = subject;
                       return (
                         <MenuItem key={id} value={id}>
-                          {name}
+                          {code}
                         </MenuItem>
                       );
                     })}

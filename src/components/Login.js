@@ -16,7 +16,12 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 
 const Login = () => {
-  const [cookies, setCookie] = useCookies(["user_id", "id", "role"]);
+  const [cookies, setCookie] = useCookies([
+    "user_id",
+    "id",
+    "role",
+    "username",
+  ]);
 
   const navigate = useNavigate();
 
@@ -27,10 +32,11 @@ const Login = () => {
       .post("http://localhost/grading/api/login.php", formData)
       .then((res) => {
         if (res.data) {
-          const { user_id, id, role } = res.data;
+          const { user_id, username, id, role } = res.data;
           setCookie("user_id", user_id, { path: "/" });
           setCookie("id", id, { path: "/" });
           setCookie("role", role, { path: "/" });
+          setCookie("username", username, { path: "/" });
 
           switch (role) {
             case "admin":

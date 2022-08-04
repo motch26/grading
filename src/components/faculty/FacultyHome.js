@@ -16,7 +16,18 @@ import {
 } from "@mui/material";
 import { AccountCircle, PersonAdd, School } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 const FacultyHome = () => {
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "user_id",
+    "id",
+    "role",
+    "username",
+  ]);
+
+  const navigate = useNavigate();
+
   return (
     <Box>
       <AppBar position="static" elevation={0}>
@@ -31,9 +42,20 @@ const FacultyHome = () => {
             <AccountCircle />
           </Avatar>
           <Typography variant="h6" sx={{ mr: 3 }}>
-            Faculty
+            {cookies.username}
           </Typography>
-          <Button variant="contained" disableElevation>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={() => {
+              removeCookie("user_id", { path: "/" });
+              removeCookie("id", { path: "/" });
+              removeCookie("role", { path: "/" });
+              removeCookie("username", { path: "/" });
+
+              navigate("/");
+            }}
+          >
             LOGOUT
           </Button>
         </Toolbar>
@@ -41,13 +63,13 @@ const FacultyHome = () => {
       <Grid container sx={{ height: "90vh" }}>
         <Grid item sm={2}>
           <List>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("classes")}>
               <ListItemIcon>
                 <PersonAdd />
               </ListItemIcon>
               <ListItemText primary="Classes" />
             </ListItemButton>
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate("grades")}>
               <ListItemIcon>
                 <PersonAdd />
               </ListItemIcon>
